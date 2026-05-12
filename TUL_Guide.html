@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TUL Student Onboarding</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: #e5e5e5;
+    color: #000;
+    display: flex;
+    justify-content: center;
+    padding: 20px 0;
+    min-height: 100vh;
+  }
+
+  .phone {
+    width: 100%;
+    max-width: 420px;
+    background: #fff;
+    border: 2px solid #000;
+    min-height: 90vh;
+    position: relative;
+    padding-bottom: 64px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── PAGES ── */
+  .page { display: none; flex-direction: column; flex: 1; }
+  .page.active { display: flex; }
+
+  /* ── HEADER ── */
+  .header {
+    padding: 16px 20px;
+    border-bottom: 2px solid #000;
+    background: #f8f8f8;
+    flex-shrink: 0;
+  }
+  .header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    font-weight: bold;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .header-title { font-size: 20px; font-weight: bold; margin-bottom: 3px; }
+  .header-sub { font-size: 13px; color: #555; }
+
+  /* ── PROGRESS ── */
+  .progress-card {
+    border: 2px solid #000;
+    padding: 14px;
+    margin: 14px;
+    background: #fff;
+    flex-shrink: 0;
+  }
+  .progress-header { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 13px; font-weight: bold; }
+  .progress-bar { height: 10px; background: #eee; border: 1px solid #000; }
+  .progress-fill { height: 100%; background: #000; transition: width 0.4s ease; }
+
+  /* ── TIP ── */
+  .tip-banner {
+    border: 1px dashed #000;
+    padding: 13px 14px;
+    margin: 0 14px 4px;
+    font-size: 13px;
+    background: #fdfdfd;
+    flex-shrink: 0;
+  }
+
+  /* ── SECTION LABEL ── */
+  .section-label {
+    font-size: 11px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 9px 14px;
+    border-top: 2px solid #000;
+    border-bottom: 1px solid #000;
+    background: #f8f8f8;
+    flex-shrink: 0;
+  }
+
+  /* ── STEPS ── */
+  .steps-list { padding: 14px; display: flex; flex-direction: column; gap: 9px; overflow-y: auto; }
+  .step-card { border: 1px solid #000; background: #fff; cursor: pointer; }
+  .step-card:hover { background: #f5f5f5; }
+  .step-card.active-step { border: 2px solid #000; background: #f9f9f9; }
+  .step-card.locked { opacity: 0.45; pointer-events: none; background: #eee; }
+  .step-row { display: flex; align-items: center; gap: 13px; padding: 13px 14px; }
+  .step-icon { font-size: 14px; font-weight: bold; width: 22px; text-align: center; flex-shrink: 0; }
+  .step-info { flex: 1; min-width: 0; }
+  .step-title { font-size: 14px; font-weight: bold; }
+  .step-meta { font-size: 11px; color: #666; margin-top: 2px; }
+  .step-badge {
+    font-size: 10px;
+    font-weight: bold;
+    border: 1px solid #000;
+    padding: 3px 7px;
+    text-transform: uppercase;
+    flex-shrink: 0;
+    letter-spacing: 0.04em;
+  }
+  .step-badge.done { background: #000; color: #fff; border-color: #000; }
+  .step-badge.now { background: #111; color: #fff; }
+  .step-body { padding: 13px 14px; border-top: 1px solid #ddd; background: #fafafa; font-size: 13px; line-height: 1.55; }
+  .step-body.hidden { display: none; }
+  .step-body a { color: #000; font-weight: bold; }
+
+  /* ── MAP PAGE ── */
+  .map-page-content { flex: 1; display: flex; flex-direction: column; }
+  .map-note {
+    padding: 11px 14px;
+    font-size: 12px;
+    color: #555;
+    border-bottom: 1px solid #ddd;
+    background: #f8f8f8;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+  }
+  .map-note a { color: #000; font-weight: bold; font-size: 12px; }
+  .map-frame {
+    flex: 1;
+    width: 100%;
+    border: none;
+    min-height: 500px;
+    display: block;
+  }
+  .map-quick { padding: 14px; border-top: 2px solid #000; flex-shrink: 0; }
+  .map-quick-title { font-size: 11px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 10px; }
+  .map-locations { display: flex; flex-direction: column; gap: 7px; }
+  .map-loc {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 11px;
+    border: 1px solid #ddd;
+    font-size: 12px;
+    cursor: pointer;
+    background: #fff;
+  }
+  .map-loc:hover { background: #f0f0f0; }
+  .map-loc-icon { font-size: 14px; width: 18px; text-align: center; flex-shrink: 0; }
+  .map-loc-name { font-weight: bold; }
+  .map-loc-sub { color: #666; font-size: 11px; }
+
+  /* ── PROFILE PAGE ── */
+  .profile-scroll { flex: 1; overflow-y: auto; }
+  .profile-hero {
+    padding: 24px 20px 20px;
+    border-bottom: 2px solid #000;
+    background: #f8f8f8;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-shrink: 0;
+  }
+  .profile-avatar-big {
+    width: 64px;
+    height: 64px;
+    border: 2px solid #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 22px;
+    background: #fff;
+    flex-shrink: 0;
+  }
+  .profile-name-big { font-size: 20px; font-weight: bold; }
+  .profile-email-big { font-size: 12px; color: #555; margin-top: 2px; }
+  .profile-status {
+    font-size: 10px;
+    font-weight: bold;
+    border: 1px solid #000;
+    padding: 3px 7px;
+    text-transform: uppercase;
+    display: inline-block;
+    margin-top: 6px;
+    letter-spacing: 0.04em;
+  }
+  .profile-section { padding: 0 14px 14px; }
+  .profile-section-title {
+    font-size: 11px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 12px 0 8px;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 10px;
+  }
+  .profile-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 9px 0;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 13px;
+  }
+  .profile-row-label { color: #555; font-size: 12px; }
+  .profile-row-value { font-weight: 500; font-size: 13px; text-align: right; }
+  .profile-edit-btn {
+    font-size: 11px;
+    font-weight: bold;
+    border: 1px solid #000;
+    padding: 3px 8px;
+    cursor: pointer;
+    background: #fff;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-family: inherit;
+  }
+  .profile-edit-btn:hover { background: #000; color: #fff; }
+
+  /* Edit overlay */
+  .edit-overlay {
+    display: none;
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(255,255,255,0.96);
+    z-index: 100;
+    padding: 20px;
+    flex-direction: column;
+    overflow-y: auto;
+  }
+  .edit-overlay.open { display: flex; }
+  .edit-overlay-title {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid #000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .close-btn {
+    font-size: 20px;
+    cursor: pointer;
+    line-height: 1;
+    font-weight: bold;
+    background: none;
+    border: none;
+    font-family: inherit;
+    padding: 0 4px;
+  }
+  .btn-save {
+    width: 100%;
+    background: #000;
+    color: #fff;
+    border: 2px solid #000;
+    padding: 11px;
+    font-size: 13px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    font-family: inherit;
+    margin-top: 6px;
+  }
+  .btn-save:hover { background: #333; }
+  .change-notice {
+    font-size: 11px;
+    color: #555;
+    margin-top: 8px;
+    text-align: center;
+    line-height: 1.4;
+  }
+
+  /* Progress links */
+  .profile-checklist { padding: 0 14px 14px; }
+  .profile-checklist .profile-section-title { border-bottom: 1px solid #eee; margin-bottom: 10px; padding-bottom: 8px; }
+  .mini-step {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 13px;
+    cursor: pointer;
+  }
+  .mini-step:hover { background: #f9f9f9; }
+  .mini-step-icon { font-size: 12px; font-weight: bold; width: 20px; text-align: center; flex-shrink: 0; }
+  .mini-step-title { flex: 1; }
+  .mini-badge {
+    font-size: 10px;
+    font-weight: bold;
+    border: 1px solid #aaa;
+    padding: 2px 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: #444;
+  }
+  .mini-badge.done { background: #000; color: #fff; border-color: #000; }
+
+  /* ── BOTTOM NAV ── */
+  .bottom-nav {
+    position: absolute;
+    bottom: 0; left: 0; width: 100%;
+    border-top: 2px solid #000;
+    background: #fff;
+    display: flex;
+    z-index: 50;
+  }
+  .nav-item {
+    flex: 1;
+    text-align: center;
+    padding: 14px 4px 12px;
+    font-size: 11px;
+    font-weight: bold;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    user-select: none;
+    border-right: 1px solid #e0e0e0;
+  }
+  .nav-item:last-child { border-right: none; }
+  .nav-item.active { background: #000; color: #fff; }
+  .nav-item:not(.active):hover { background: #f5f5f5; }
+  .nav-icon { font-size: 18px; display: block; margin-bottom: 3px; }
+  .nav-label { display: block; }
+</style>
+</head>
+<body>
+<div class="phone" id="app">
+
+  <!-- ═══════════════ PAGE: CHECKLIST ═══════════════ -->
+  <div class="page active" id="page-checklist">
+    <div class="header">
+      <div class="header-top">
+        <span>TUL Student Portal</span>
+        <span onclick="switchPage('checklist')" style="cursor:pointer">🔔</span>
+      </div>
+      <div class="header-title">Hey, new student!</div>
+      <div class="header-sub">Here's everything you need to get started</div>
+    </div>
+
+    <div class="progress-card">
+      <div class="progress-header">
+        <span>Onboarding progress</span>
+        <span id="pct">29%</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="bar" style="width:29%"></div>
+      </div>
+    </div>
+
+    <div class="tip-banner">
+      <strong>Tip:</strong> Activate your TUL email (SPE) at poczta.p.lodz.pl — it's mandatory for all students.
+    </div>
+
+    <div class="section-label">Your checklist</div>
+    <div class="steps-list" id="steps-list"></div>
+  </div>
+
+  <!-- ═══════════════ PAGE: MAP ═══════════════ -->
+  <div class="page" id="page-map">
+    <div class="header">
+      <div class="header-top"><span>TUL Student Portal</span><span>Campus Map</span></div>
+      <div class="header-title">Campus map</div>
+    </div>
+    <div class="map-page-content">
+      <div class="map-note">
+        <span>Interactive map — mapa.p.lodz.pl</span>
+        <a href="https://mapa.p.lodz.pl" target="_blank" rel="noopener">Open full ↗</a>
+      </div>
+      <iframe
+        class="map-frame"
+        src="https://mapa.p.lodz.pl"
+        title="TUL Interactive Campus Map"
+        loading="lazy"
+        sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
+      ></iframe>
+      <div class="map-quick">
+        <div class="map-quick-title">Key locations</div>
+        <div class="map-locations" id="map-locations"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════ PAGE: PROFILE ═══════════════ -->
+  <div class="page" id="page-profile">
+    <div class="header">
+      <div class="header-top"><span>TUL Student Portal</span><span>Profile</span></div>
+    </div>
+    <div class="profile-scroll">
+      <div class="profile-hero">
+        <div class="profile-avatar-big" id="profile-avatar-big">NS</div>
+        <div>
+          <div class="profile-name-big" id="profile-name-big">New Student</div>
+          <div class="profile-email-big" id="profile-email-big">example@email</div>
+          <div class="profile-status" id="profile-status">Active</div>
+        </div>
+      </div>
+
+      <div class="profile-section">
+        <div class="profile-section-title">Account details</div>
+        <div class="profile-row">
+          <span class="profile-row-label">Full name</span>
+          <span class="profile-row-value" id="pv-name">New Student</span>
+        </div>
+        <div class="profile-row">
+          <span class="profile-row-label">Email</span>
+          <span class="profile-row-value" id="pv-email">example@email</span>
+        </div>
+        <div class="profile-row">
+          <span class="profile-row-label">Faculty</span>
+          <span class="profile-row-value" id="pv-faculty">—</span>
+        </div>
+        <div style="margin-top:12px">
+          <button class="btn-primary" onclick="openEdit()">Edit profile</button>
+        </div>
+      </div>
+
+      <div class="profile-section">
+        <div class="profile-section-title">Security</div>
+        <div class="profile-row">
+          <div>
+            <div style="font-size:13px;font-weight:500">Password</div>
+            <div class="profile-row-label">Last changed: never</div>
+          </div>
+          <button class="profile-edit-btn" onclick="openPasswordEdit()">Change</button>
+        </div>
+      </div>
+
+      <div class="profile-checklist">
+        <div class="profile-section-title">My progress</div>
+        <div id="profile-mini-steps"></div>
+      </div>
+
+      <div class="profile-section" style="padding-bottom: 20px;">
+        <div class="profile-section-title">Useful links</div>
+        <div class="profile-row" style="cursor:pointer" onclick="window.open('https://webdziekanat.p.lodz.pl','_blank')">
+          <span class="profile-row-label">WebDziekanat</span>
+          <span style="font-size:12px">webdziekanat.p.lodz.pl ↗</span>
+        </div>
+        <div class="profile-row" style="cursor:pointer" onclick="window.open('https://wikamp.p.lodz.pl','_blank')">
+          <span class="profile-row-label">WIKAMP</span>
+          <span style="font-size:12px">wikamp.p.lodz.pl ↗</span>
+        </div>
+        <div class="profile-row" style="cursor:pointer" onclick="window.open('https://poczta.p.lodz.pl','_blank')">
+          <span class="profile-row-label">TUL email (SPE)</span>
+          <span style="font-size:12px">poczta.p.lodz.pl ↗</span>
+        </div>
+        <div class="profile-row" style="cursor:pointer" onclick="window.open('https://mapa.p.lodz.pl','_blank')">
+          <span class="profile-row-label">Campus map</span>
+          <span style="font-size:12px">mapa.p.lodz.pl ↗</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Edit Profile Overlay -->
+    <div class="edit-overlay" id="edit-overlay">
+      <div class="edit-overlay-title">
+        Edit profile
+        <button class="close-btn" onclick="closeEdit()">✕</button>
+      </div>
+      <div class="field">
+        <label>Full name</label>
+        <input type="text" id="edit-name" placeholder="First Last">
+      </div>
+      <div class="field">
+        <label>Email</label>
+        <input type="email" id="edit-email" placeholder="example@email">
+      </div>
+      <div class="field">
+        <label>Faculty</label>
+        <select id="edit-faculty">
+          <option value="">Select…</option>
+          <option>IFE - International Faculty of Engineering</option>
+          <option>FTiMS - Faculty of Technical Physics, IT & Applied Math</option>
+          <option>WEEiA - Faculty of Electrical, Electronic, Computer and Control Engineering</option>
+          <option>WM - Faculty of Mechanical Engineering</option>
+          <option>WC - Faculty of Chemistry</option>
+          <option>BiNoŻ - Faculty of Biotechnology & Food Sciences</option>
+          <option>WOiZ - Faculty of Organization and Management</option>
+          <option>WIPOŚ - Faculty of Process and Environmental Engineering</option>
+          <option>BAIŚ - Wydział Budownictwa, Architektury i Inżynierii Środowiska</option>
+          <option>WiW - Faculty of Textiles and Design</option>
+        </select>
+      </div>
+      <button class="btn-save" onclick="saveProfile()">Save changes</button>
+    </div>
+
+    <!-- Change Password Overlay -->
+    <div class="edit-overlay" id="pw-overlay">
+      <div class="edit-overlay-title">
+        Change password
+        <button class="close-btn" onclick="closePwEdit()">✕</button>
+      </div>
+      <div class="field">
+        <label>Current password</label>
+        <input type="password" id="pw-current" placeholder="••••••••">
+      </div>
+      <div class="field">
+        <label>New password</label>
+        <input type="password" id="pw-new" placeholder="••••••••">
+      </div>
+      <div class="field">
+        <label>Confirm new password</label>
+        <input type="password" id="pw-confirm" placeholder="••••••••">
+      </div>
+      <p class="change-notice">Your password is used to log in to both this portal and poczta.p.lodz.pl</p>
+      <button class="btn-save" onclick="savePassword()" style="margin-top:14px">Update password</button>
+      <div class="success-msg" id="pw-success" style="margin-top:10px">✓ Password updated successfully.</div>
+    </div>
+  </div>
+
+  <!-- ═══════════════ BOTTOM NAV ═══════════════ -->
+  <div class="bottom-nav">
+    <div class="nav-item active" id="nav-checklist" onclick="switchPage('checklist')">
+      <span class="nav-icon">☑</span>
+      <span class="nav-label">Checklist</span>
+    </div>
+    <div class="nav-item" id="nav-map" onclick="switchPage('map')">
+      <span class="nav-icon">🗺</span>
+      <span class="nav-label">Map</span>
+    </div>
+    <div class="nav-item" id="nav-profile" onclick="switchPage('profile')">
+      <span class="nav-icon">👤</span>
+      <span class="nav-label">Profile</span>
+    </div>
+  </div>
+
+</div><!-- .phone -->
+
+<script>
+/* ── DATA ── */
+const steps = [
+  { id:0, title:"Submit enrollment documents", meta:"Recruitment Office", badge:"done", icon:"[✓]",
+    desc:`You've successfully submitted your enrollment documents to TUL's Recruitment Office. Required documents included your application form, high school diploma, and a signed study agreement.`, locked:false },
+  { id:1, title:"Take the matriculation oath", meta:"Dean's Office", badge:"done", icon:"[✓]",
+    desc:`You've taken the official matriculation oath, which formally makes you a TUL student. Your student index number (album number) was assigned at this point.`, locked:false },
+  { id:2, title:"Activate your TUL email (SPE)", meta:"poczta.p.lodz.pl", badge:"now", icon:"[ ]",
+    desc:`TUL's System Poczty Elektronicznej (SPE) is mandatory for ALL students. Your address is in the format <strong>[albumNumber]@edu.p.lodz.pl</strong>. Use this email and password to log in to WebDziekanat and WIKAMP. <a href="https://poczta.p.lodz.pl" target="_blank">Go to poczta.p.lodz.pl ↗</a>`, locked:false },
+  { id:3, title:"Log into WebDziekanat & WIKAMP", meta:"webdziekanat.p.lodz.pl", badge:"soon", icon:"[-]",
+    desc:`WebDziekanat is TUL's student portal — view grades, generate payment account numbers, check announcements, and manage study-related documents. Log in using your SPE email and password. <a href="https://webdziekanat.p.lodz.pl" target="_blank">Open WebDziekanat ↗</a>`, locked:false },
+  { id:4, title:"Find your timetable", meta:"Course schedule", badge:"soon", icon:"[-]",
+    desc:`Your class schedule is in WebDziekanat under <em>Course schedule</em>. IFE students: use <a href="https://celcat.p.lodz.pl" target="_blank">celcat.p.lodz.pl ↗</a> with your year, major, and group number (e.g. 4IT group 3). Room locations are on <a href="https://mapa.p.lodz.pl" target="_blank">mapa.p.lodz.pl ↗</a>. Foreign language rooms are listed on the faculty site.`, locked:false },
+  { id:5, title:"Get your student ID card (ELS)", meta:"Submit photo via WebDziekanat", badge:"soon", icon:"[-]",
+    desc:`The Elektroniczna Legitymacja Studencka (ELS) is your official student ID. It grants library access and public transport discounts. Submit your photo via WebDziekanat → <em>Student ID</em>.`, locked:false },
+  { id:6, title:"Explore the TUL campus", meta:"mapa.p.lodz.pl", badge:"later", icon:"[L]",
+    desc:`Use <a href="https://mapa.p.lodz.pl" target="_blank">mapa.p.lodz.pl ↗</a> — the official virtual campus — to explore the campus, find buildings, and plan your route before day one.`, locked:true },
+  { id:7, title:"Orientation Days", meta:"Student Mentors programme", badge:"later", icon:"[L]",
+    desc:`TUL organises Orientation Days one week before classes start. You'll learn about the university structure, Polish academic law, and exchange/internship opportunities. You can also be matched with a student Mentor via foreignstudents@info.p.lodz.pl`, locked:true }
+];
+
+const mapLocations = [
+  { icon:"🎓", name:"Main Building (B3)", sub:"ul. Ks. I. Skorupki 10/12 — Rector's Office" },
+  { icon:"📚", name:"Main Library", sub:"ul. Wólczańska 221 — student library & study rooms" },
+  { icon:"🍽", name:"Student Canteen (Stołówka)", sub:"al. Politechniki 8, bud. B9" },
+  { icon:"🏥", name:"Student Health Centre", sub:"ul. Wólczańska 215B, bud. B12" },
+  { icon:"🏋", name:"Sports Centre", sub:"Al. Politechniki 10, bud. B28" },
+];
+
+
+let openId = 2;
+let profile = { name:"New Student", email:"example@email", album:"", faculty:"", year:"1st year" };
+
+/* ── NAVIGATION ── */
+function switchPage(page) {
+  ['checklist','map','profile'].forEach(p => {
+    document.getElementById('page-' + p).classList.toggle('active', p === page);
+    document.getElementById('nav-' + p).classList.toggle('active', p === page);
+  });
+  if(page === 'profile') renderProfile();
+}
+
+/* ── CHECKLIST ── */
+function renderChecklist() {
+  const list = document.getElementById("steps-list");
+  const done = steps.filter(s => s.badge === "done").length;
+  const pct = Math.round((done / steps.length) * 100);
+  document.getElementById("pct").textContent = pct + "%";
+  document.getElementById("bar").style.width = pct + "%";
+  list.innerHTML = steps.map(s => {
+    const isOpen = openId === s.id;
+    const badgeClass = s.badge === "done" ? "done" : s.badge === "now" ? "now" : "";
+    return `<div class="step-card ${s.badge==="now"?"active-step":""} ${s.locked?"locked":""}" onclick="toggleStep(${s.id})">
+      <div class="step-row">
+        <div class="step-icon">${s.icon}</div>
+        <div class="step-info">
+          <div class="step-title">${s.title}</div>
+          <div class="step-meta">${s.meta}</div>
+        </div>
+        <div class="step-badge ${badgeClass}">${s.badge}</div>
+      </div>
+      <div class="step-body ${isOpen?"":"hidden"}">${s.desc}</div>
+    </div>`;
+  }).join("");
+}
+function toggleStep(id) { openId = openId === id ? -1 : id; renderChecklist(); }
+
+/* ── MAP ── */
+function renderMap() {
+  const el = document.getElementById("map-locations");
+  el.innerHTML = mapLocations.map(l =>
+    `<div class="map-loc")">
+      <div class="map-loc-icon">${l.icon}</div>
+      <div>
+        <div class="map-loc-name">${l.name}</div>
+        <div class="map-loc-sub">${l.sub}</div>
+      </div>
+    </div>`
+  ).join("");
+}
+
+/* ── PROFILE ── */
+function initials(name) {
+  return name.split(" ").filter(Boolean).slice(0,2).map(w=>w[0].toUpperCase()).join("") || "NS";
+}
+function renderProfile() {
+  document.getElementById("profile-avatar-big").textContent = initials(profile.name);
+  document.getElementById("profile-name-big").textContent = profile.name || "New Student";
+  document.getElementById("profile-email-big").textContent = profile.email || "example@email.com";
+  document.getElementById("pv-name").textContent = profile.name || "—";
+  document.getElementById("pv-email").textContent = profile.email || "—";
+  document.getElementById("pv-faculty").textContent = profile.faculty || "—";
+  const mini = document.getElementById("profile-mini-steps");
+  mini.innerHTML = steps.map(s =>
+    `<div class="mini-step" onclick="switchPage('checklist')">
+      <div class="mini-step-icon">${s.icon}</div>
+      <div class="mini-step-title">${s.title}</div>
+      <div class="mini-badge ${s.badge==="done"?"done":""}">${s.badge}</div>
+    </div>`
+  ).join("");
+}
+
+function openEdit() {
+  document.getElementById("edit-name").value = profile.name;
+  document.getElementById("edit-email").value = profile.email;
+  document.getElementById("edit-faculty").value = profile.faculty;
+  document.getElementById("edit-overlay").classList.add("open");
+}
+function closeEdit() { document.getElementById("edit-overlay").classList.remove("open"); }
+
+function saveProfile() {
+  profile.name = document.getElementById("edit-name").value.trim() || profile.name;
+  profile.faculty = document.getElementById("edit-faculty").value;
+  const emailInput = document.getElementById("edit-email").value.trim();
+  if (emailInput) profile.email = emailInput;
+  closeEdit();
+  renderProfile();
+}
+
+function openPasswordEdit() {
+  document.getElementById("pw-overlay").classList.add("open");
+  document.getElementById("pw-success").style.display = "none";
+}
+function closePwEdit() { document.getElementById("pw-overlay").classList.remove("open"); }
+
+function savePassword() {
+  const cur = document.getElementById("pw-current").value;
+  const nw = document.getElementById("pw-new").value;
+  const conf = document.getElementById("pw-confirm").value;
+  if (!cur || !nw || !conf) { alert("Please fill in all password fields."); return; }
+  if (nw !== conf) { alert("New passwords don't match."); return; }
+  if (nw.length < 8) { alert("Password must be at least 8 characters."); return; }
+  document.getElementById("pw-success").style.display = "block";
+  ["pw-current","pw-new","pw-confirm"].forEach(id => document.getElementById(id).value = "");
+}
+
+/* ── INIT ── */
+renderChecklist();
+renderMap();
+renderProfile();
+</script>
+</body>
+</html>
