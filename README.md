@@ -166,8 +166,6 @@ The map isn't just a standalone feature — it's connected to the academic exper
 
 ---
 
-## Not Yet Implemented (from specification)
-
-The following functionalities are described in the project specification but are not present in the current prototype:
+## Not Yet Implemented:
 
 - **Personalisation based on faculty** — different look for different faculty
