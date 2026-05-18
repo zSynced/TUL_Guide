@@ -1,7 +1,6 @@
 # TUL Student Onboarding App — Functionalities & Use Cases
 
-## Website access:
-[link text](https://zsynced.github.io/TUL_Guide/)
+## [Website access](https://zsynced.github.io/TUL_Guide/)
 
 ## Target User
 
