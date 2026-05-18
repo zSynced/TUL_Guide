@@ -1,5 +1,8 @@
 # TUL Student Onboarding App — Functionalities & Use Cases
 
+## Website access:
+[link text](https://zsynced.github.io/TUL_Guide/)
+
 ## Target User
 
 **First-year students at the Technical University of Łódź (TUL).**  
