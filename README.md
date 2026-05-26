@@ -189,21 +189,13 @@ The progress of registration, which is tracked, makes it much easier for a stude
 So, from the practical point of view, the website is made really well (except the remark made about the map). For the future, it will be a good idea to slightly improve the design, for example, by adding the university colors.
 
 - What I liked:
-
 Simple design: In my opinion, it fits this type of website perfectly.
-
 Content: The core content is quite useful — the checklist, the map, and the faculty info are all good.
-
 What needs to be fixed/improved:
-
 Profile page: I didn’t quite get why a profile is even needed on this site, but since it's there, it needs to stand out more. Personally, when I first looked at the site, I didn't even realize right away that I had landed on the profile page.
-
 Navigation (Mobile UX): The navigation menu should be moved from the bottom to the top. It’s annoying to have to scroll down every single time just to switch sections (even though the pages are short). Plus, when you switch pages, it awkwardly loads from the bottom first. If moving it to the top isn't an option, you should at least make it a sticky/fixed menu so it stays in place, like a standard mobile layout.
-
 State persistence: This might be obvious, but I'll mention it anyway: actions aren't saved when you refresh the page. Everything resets to default.
-
 Map functionality: When I click on "key locations," the map doesn't show them. Not sure if it's supposed to be like that or if it's a bug.
-
 Visual style (Emojis): I get that this is just a draft, but the emojis don't really fit the vibe. Also, considering they look different on almost every device, it's better to replace them with universal icons.
 
 - Cool website—I like that it loads quickly. However: the interactive map loads slowly, checkpoint elements aren’t saved, the design is a bit boring, and there aren’t many helpful links at the checkpoints. I understand you’re embedding the interactive map via an iframe on some website; consider using a JavaScript library for maps (like leaflet.js) that will also let you make the map zoom in on specific locations when clicked.
