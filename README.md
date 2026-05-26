@@ -202,9 +202,12 @@ Visual style (Emojis): I get that this is just a draft, but the emojis don't rea
 Also, increase the margin/padding on the sides; on phones with curved screens, it’s essentially non-existent.
 Or just remove the padding on mobile devices using a CSS media query with the appropriate query (as far as I recall, you can use max-width with the appropriate width).
 
+- it is also good in the map if we mark the IFE building as an important one because is the Erasmus officine. Also in the first part (checklist) it can be good if we include another mark for OLA (Online Learning Agreement), which is a document that Erasmus people need to upload
+  
 ---
 
 ## Not Yet Implemented:
 
 - **Personalisation based on faculty** — different look for different faculty
-- Correct gramatical issues/inconsistencies 
+- Correct gramatical issues/inconsistencies
+- make the timetables show up based on picked faculty in profile section
