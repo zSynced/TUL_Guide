@@ -166,6 +166,48 @@ The map isn't just a standalone feature — it's connected to the academic exper
 
 ---
 
+## Feedback
+- Cite is build very clearly and easy to use. Even without additional information I could easily navigate it. I think it would be a lot easier for new students to navigate their studying and save them a lot of nerves :)
+  
+- The campus map is pretty good, suitable for beginners and even those who constantly forget everything, but it does lag a bit sometimes. The checklist is a good idea, but making it separate tab just waste of screen , leaving it in the profile tab would be enough. The fact that you can view your schedule is also really cool.
+  
+- So it's pretty good so far, the nitpicks i have are mostly design stuff, like adding some sort of color pallete for it not to just be grey or smth. The design is intuitive and I like it! Don't really have a lot of problems with it other than that, though adding a FAQ would probably be appreciated
+
+- The website is extremely helpful. 
+Checklist is present on the front page PLUS in profile, which is like a double check.
+Several useful links in maps help to prevent the confusion in buildings. Perfect to see before arriving and after, to walk around and not get lost.
+“Schedule” page provides links straight to the needed time tables  for various of courses, which reduces time taken to find them and again avoids the confusion that could have been caused in alone search.
+Useful links help to check the information if needed, as well as give an opportunity to read what the university has to offer more comprehensively. 
+Also! Gives straight way to contact student support in case if needed. In my opinion this is one of the most useful tools an applicant can ask for.
+
+- Overall, I like the vibe and usability of the website. The navigation is easy to follow, and I can access all the important information within one click. However, the layout currently feels strictly mobile-first, on a laptop screen it looks a bit constrained, like I'm looking at a phone screen embedded on a monitor (everything forced within a centered box) . While it works perfectly on my phone, I probably wouldn't use the desktop version as it currently stands. Also, it might be worth making the layout more responsive to utilize the wider desktop screens. (Tbh it looks a bit template-heavy or AI-sh, but the core concept is good) Things you might want to look into: text size on the mobile is perfect but some parts read too small on a laptop, adding an accessibility toggle might help. Also, you might consider adding a switch between themes like light and dark, the current usage of white background and black text/lines look very much like a word doc. I loved the idea of the embedded map, but it needs a bit tweaking to be more practical. The current map box is quite uncomfortable for both phone and laptop screens. If the goal is just to showcase the map and have students use it on the actual website, you might consider making the entire map preview clickable, so it automatically redirects user to nav.pl. Alternatively try to scale the embedded box to fit into different screen measurements. Also, you might consider adding more key locations and grouping in futher versions of the website, ex., a category for Administrative Buidings (Listing all dean's offices) or Dorms (listing all the available housing) etc. Also, I'm not quite sure what was the exact goal of checklist, but you might want to refine its operation. If the onboarding process is supposed to be sequential, you shouldn't allow users to check boxes in a chaotic random order, consider locking future steps until previous ones are completed. It might also be a good idea to disable the ability to uncheck the box to prevent accidental progress loss.  One more thing, I am not entirely sure how the ELS process works for international students (I remember trying to do it and failing to add the id) so it's definitely worth double-checking and mentioning if such students are able to accomplish that or not.  And some of the links towards timetables open wikamp login window instead, like for weeia, idk where they have their timetables so maybe it's normal.
+And, I would have also considered having a page with links to some clubs or student activity they might want to join as it needs some digging to find out how or where to apply to some less known things. (Oh and our uni has Instagram and tiktok and some other social media you might consider adding that)
+Other than that the idea is quite good, as a person who likes creating checklists for my todo lists I would have used the website during my enrolment process to keep the progress of it in check as well as make sure I know what my next steps are.
+
+- The website is very useful because all the important information is one click away. What is more, you can access the website with both a computer and a phone. 
+The progress of registration, which is tracked, makes it much easier for a student to see what is already done and what is still missing. An accessible timetable for all the departments at the same place makes the website even more usable for all the students. Also, the map of the campus, which already has important spots (such as the rector's office or student self care) marked seems to be a great idea. I would also add dorms or IFE of building to the map, because these are places all students will need in the first place.
+So, from the practical point of view, the website is made really well (except the remark made about the map). For the future, it will be a good idea to slightly improve the design, for example, by adding the university colors.
+
+- What I liked:
+Simple design: In my opinion, it fits this type of website perfectly.
+Content: The core content is quite useful — the checklist, the map, and the faculty info are all good.
+What needs to be fixed/improved:
+Profile page: I didn’t quite get why a profile is even needed on this site, but since it's there, it needs to stand out more. Personally, when I first looked at the site, I didn't even realize right away that I had landed on the profile page.
+Navigation (Mobile UX): The navigation menu should be moved from the bottom to the top. It’s annoying to have to scroll down every single time just to switch sections (even though the pages are short). Plus, when you switch pages, it awkwardly loads from the bottom first. If moving it to the top isn't an option, you should at least make it a sticky/fixed menu so it stays in place, like a standard mobile layout.
+State persistence: This might be obvious, but I'll mention it anyway: actions aren't saved when you refresh the page. Everything resets to default.
+Map functionality: When I click on "key locations," the map doesn't show them. Not sure if it's supposed to be like that or if it's a bug.
+Visual style (Emojis): I get that this is just a draft, but the emojis don't really fit the vibe. Also, considering they look different on almost every device, it's better to replace them with universal icons.
+
+- Cool website—I like that it loads quickly. However: the interactive map loads slowly, checkpoint elements aren’t saved, the design is a bit boring, and there aren’t many helpful links at the checkpoints. I understand you’re embedding the interactive map via an iframe on some website; consider using a JavaScript library for maps (like leaflet.js) that will also let you make the map zoom in on specific locations when clicked.
+Also, increase the margin/padding on the sides; on phones with curved screens, it’s essentially non-existent.
+Or just remove the padding on mobile devices using a CSS media query with the appropriate query (as far as I recall, you can use max-width with the appropriate width).
+
+- it is also good in the map if we mark the IFE building as an important one because is the Erasmus officine. Also in the first part (checklist) it can be good if we include another mark for OLA (Online Learning Agreement), which is a document that Erasmus people need to upload
+  
+---
+
 ## Not Yet Implemented:
 
 - **Personalisation based on faculty** — different look for different faculty
+- Correct gramatical issues/inconsistencies
+- make the timetables show up based on picked faculty in profile section
